@@ -1,0 +1,14 @@
+
+<div class="row-fluid">
+    <table class="table table-bordered">
+        <legend>确认付款{{payMoney}}元</legend>
+        <tr ng-repeat="i in content">
+            <td>{{i.name}}</td>
+            <td>
+                <p ng-repeat="j in i.content">
+                    {{j.name}}{{j.price}}元
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>

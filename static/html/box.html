@@ -1,0 +1,49 @@
+
+<!--<div class="silde_left" ng-style="silderLeft">
+   <div class="row-fluid"  ng-repeat="l1 in arr">
+       <div class="subNav currentDd currentDt text-center"  >{{l1.name}}</div>
+       <ul class="navContent text-center" style="display:block"  >
+           <li class="btn-link"  ng-repeat="link in l1 track by $index" ng-click="clickFun1(l1.items[$index].state,l1.items[$index].name,l1.items[$index].id)" >{{l1.items[$index].name}}</li>
+       </ul>
+   </div>
+</div>-->
+<!--侧边结束-->
+<!--顶部开始-->
+<!--<div class="span12" ng-style="contentTop">
+    <div class="row-fluid" style="margin-bottom: 10px">
+        <div class="span12">
+            <div class="row-fluid">
+                <div class="span4">
+                    <img style="height: 60px;" src="image/angular_logo.jpg" alt="">
+                </div>
+                <div class="span8">
+                    <div class="row-fluid navTab">
+                        <div class="navtab text-center bod1 bodcolor-99 fl" >
+                            <h2 class="fl" ng-click="">功能</h2>
+                            <h2 class="fr">X</h2>
+                        </div>
+                        <div class="navtab text-center bod1 bodcolor-99 fl" >
+                            <h2 class="fl" ng-click="">功能</h2>
+                            <h2 class="fr">X</h2>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>-->
+<!--顶部结束-->
+<!--内容开始-->
+<!--<div class="container-fluid">
+    <header ui-view="box-header"></header>
+</div>-->
+<div class="container-fluid">
+    <div class="col-lg-3 col-sm-3" ui-view="box-slide"></div>
+    <div ui-view="box-dash" class="col-lg-9 col-sm-9" href="#/box/dash"></div>
+</div>
+<!--<div class="container-fluid">
+    <footer ui-view="box-footer"></footer>
+</div>-->
+

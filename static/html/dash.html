@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+    <div class="span12">
+        <table class="table table-bordered table-hover" align="center">
+            <tr>
+                <td>
+                    登录人：{{loginInfor.name}}
+                </td>
+                <td></td>
+                <td>
+                    <b>全选</b>&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="chioceAll" ng-change="change(chioceAll)" style="width: 40px;height: 40px;">
+                </td>
+            </tr>
+            <tr ng-repeat="i in data">
+                <td style="text-align: center"><h3>{{i.name}}</h3></td>
+                <td>
+                    <p ng-repeat="j in i.content">{{j.name}}&nbsp;{{j.price}}元</p>
+                </td>
+                <td>
+                    <input type="checkbox" ng-model="i.isChioce" style="width: 40px;height: 40px;margin: 20px auto">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right;padding-right: 20px;">
+                    共：{{money}}元
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div ng-click="pay()" class="payBtn">去付款</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+  <!--  <div ng-include="'html/box.html'"></div>-->
+</div>

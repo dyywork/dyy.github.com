@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" id="ng-app" ng-app="myproject">
+    <head >
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>angular</title>
+
+        <link rel="stylesheet" href="css/index.css">
+        <!--<link rel="stylesheet" href="libs/bootstrap.min.css">-->
+   <!--     <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">-->
+        <!--<link rel="stylesheet" href="bootstrap/css/base.css">-->
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="libs/font-awesome.min.css">
+       <!-- <link rel="stylesheet" href="libs/ui.jqgrid.css">-->
+        <link rel="stylesheet" href="libs/ui.jqgrid-bootstrap.css">
+        <link rel="stylesheet" href="libs/ui.jqgrid-bootstrap-ui.css"/>
+        <script src="angular/angular.js"></script>
+        <script src="angular/angular-route.min.js"></script>
+        <script src="angular/angular-ui-router.js"></script>
+        <script src="bootstrap/js/jquery-2.1.4.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/json2.js"> </script>
+        <script src="libs/jquery.jqGrid.min.js"></script>
+        <script src="libs/grid.locale-cn.js"></script>
+        <script src="js/controller.js"></script>
+        <script src="js/server.js"></script>
+        <script src="js/app.js"></script>
+        <script src="libs/common.js"></script>
+    </head>
+    <body ng-controller="indexCtrl">
+            <div class="container-fluid">
+                <header ui-view="box-header"></header>
+            </div>
+            <div ui-view="index" style="width: 100%;position: relative;height: 800px;"></div>
+            <div class="container-fluid">
+                <footer ui-view="box-footer"></footer>
+            </div>
+    </body>
+</html>
