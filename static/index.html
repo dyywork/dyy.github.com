@@ -31,8 +31,22 @@
             <div class="container-fluid">
                 <header ui-view="box-header"></header>
             </div>
-            <div ui-view="index" style="width: 100%;position: relative;height: 800px;"></div>
-            <div class="container-fluid">
+            <div class="container-fluid" style="position: relative"><!--row-->
+                <div class="slider_content">
+                    <div class="slide" ui-view="box-slide" ng-controller="sliderCtrl"></div>
+                </div>
+                <div class="content">
+                    <div ui-view ='box-tabs' ng-controller="tabsCtrl"></div>
+                    <div class="" ui-view="index" ></div>
+                </div>
+                <!--<div class="col-lg-2 col-sm-2 slide" ui-view="box-slide" ng-controller="sliderCtrl"></div>
+                <div class=" box col-lg-10 col-sm-10">
+                    <div ui-view ='box-tabs' ng-controller="tabsCtrl"></div>
+                    <div class="" ui-view="index" ></div>
+                </div>-->
+            </div>
+
+            <div class="container-fluid" style="position: absolute; bottom: 0px;padding: 0;">
                 <footer ui-view="box-footer"></footer>
             </div>
     </body>

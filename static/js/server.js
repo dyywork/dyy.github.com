@@ -16,6 +16,7 @@ angular.module("server",[])
             }
         }
     })
+
     .factory("contains",function () {
         return {
             expand:function (arr, obj) {
@@ -30,6 +31,13 @@ angular.module("server",[])
         }
         
     })
+.factory("Server", function () {
+  return {
+    get: function () {
+      return "";//10.0.8.135  10.0.74.54  ehrapptest.easthope.cn 10.0.8.130
+    }
+  }
+})
     .factory('dataFactory', function ($http, $q){
         var factory = {};
         factory.getlist = function(endpoint, method, params) {

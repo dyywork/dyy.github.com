@@ -181,6 +181,7 @@ input[type=checkbox]:focus {
 .currentDd{color:#277fc2}
 
 .currentDt{}
+.cur{cursor: pointer;}
 
 .navContent{display: none;border-bottom:solid 1px #e5e3da;}
 
@@ -192,4 +193,43 @@ input[type=checkbox]:focus {
     cursor: pointer;
     width: 100px;
     line-height: 100px;
+}
+.tabs{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    float: left;
+    cursor: pointer;
+}
+.tabs:hover{
+    background-color: #337ab7;
+    color: #fff;
+}
+.tabs span{
+    display: inline-block;
+   margin-left: 8px;
+}
+.tabs span:hover{
+    background-color: red;
+    border-radius: 50%;
+    color: #fff;
+}
+.tabs_active{
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.slider_content{
+    width: 200px;
+    float: left;
+    overflow: hidden;
+    position: absolute;
+    left: 0px;
+}
+.content{
+    position: absolute;
+    left: 185px;
+    width: 1000px;
+    float: left;
 }
