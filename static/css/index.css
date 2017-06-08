@@ -1,3 +1,4 @@
+
 *{
     margin: 0;
     padding: 0;
@@ -232,4 +233,21 @@ input[type=checkbox]:focus {
     left: 185px;
     width: 1000px;
     float: left;
+}
+
+/*登陆页面*/
+.login_bag{
+    background-color: #fff;
+    width: 380px !important;
+    height:208px !important;
+    padding-top: 20px;
+    margin-top: 300px;
+    border-radius: 5px;
+}
+.date_het_pad{
+    height: 34px !important;
+    padding: 6px 12px !important;
+}
+.condition_lable{
+    width: 196px !important;
 }
