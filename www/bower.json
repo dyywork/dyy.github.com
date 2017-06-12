@@ -1,0 +1,24 @@
+{
+  "name": "fruit",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "awen"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./www/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "boostrap#^3.3.7",
+    "angular-ui-router": "^0.3.2",
+    "jquery": "^3.1.1",
+    "art-template": "^3.0.1"
+  }
+}

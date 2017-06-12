@@ -1,8 +1,0 @@
-<div class="container-fluid" ng-repeat="l1 in arr">
-    <ul class="list-group mag-bottom">
-        <li href="#{{l1.tabId}}" class="list-group-item active cur" data-toggle="collapse" aria-expanded="true" aria-controls="{{l1.tabId}}">{{l1.name}}</li>
-            <ul class="list-group mag-bottom collapse {{l1.shows}}"  id="{{l1.tabId}}" aria-expanded = "false">
-                <li href="#" class="list-group-item cur"  ng-repeat="i in l1.items" ng-click="silderData(i)">{{i.name}}</li>
-            </ul>
-    </ul>
-</div>
