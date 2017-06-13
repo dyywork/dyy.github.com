@@ -1675,8 +1675,8 @@
             var criteria = extend(this._getDefaultMatchCriteria(), this.matchCriteria);
             var paths = values(this.tranSvc._pluginapi._getPathTypes());
             return paths.reduce(function (mn, pathtype) {
-                // STATE scope criteria matches against every node in the path.
-                // TRANSITION scope criteria matches against only the last node in the path
+                // STATE scope criteria matches against every model in the path.
+                // TRANSITION scope criteria matches against only the last model in the path
                 var isStateHook = pathtype.scope === exports.TransitionHookScope.STATE;
                 var path = treeChanges[pathtype.name] || [];
                 var nodes = isStateHook ? path : [tail(path)];
@@ -1816,10 +1816,10 @@
     /**
      * A factory for a sort function for HookTuples.
      *
-     * The sort function first compares the PathNode depth (how deep in the state tree a node is), then compares
+     * The sort function first compares the PathNode depth (how deep in the state tree a model is), then compares
      * the EventHook priority.
      *
-     * @param reverseDepthSort a boolean, when true, reverses the sort order for the node depth
+     * @param reverseDepthSort a boolean, when true, reverses the sort order for the model depth
      * @returns a tuple sort function
      */
     function tupleSort(reverseDepthSort) {
@@ -2132,9 +2132,9 @@
 
     /** @module path */ /** for typedoc */
     /**
-     * A node in a [[TreeChanges]] path
+     * A model in a [[TreeChanges]] path
      *
-     * For a [[TreeChanges]] path, this class holds the stateful information for a single node in the path.
+     * For a [[TreeChanges]] path, this class holds the stateful information for a single model in the path.
      * Each PathNode corresponds to a state being entered, exited, or retained.
      * The stateful information includes parameter values and resolve data.
      */
@@ -2156,13 +2156,13 @@
                 this.resolvables = state.resolvables.map(function (res) { return res.clone(); });
             }
         }
-        /** Sets [[paramValues]] for the node, from the values of an object hash */
+        /** Sets [[paramValues]] for the model, from the values of an object hash */
         PathNode.prototype.applyRawParams = function (params) {
             var getParamVal = function (paramDef) { return [paramDef.id, paramDef.value(params[paramDef.id])]; };
             this.paramValues = this.paramSchema.reduce(function (memo, pDef) { return applyPairs(memo, getParamVal(pDef)); }, {});
             return this;
         };
-        /** Gets a specific [[Param]] metadata that belongs to the node */
+        /** Gets a specific [[Param]] metadata that belongs to the model */
         PathNode.prototype.parameter = function (name) {
             return find(this.paramSchema, propEq("id", name));
         };
@@ -2237,7 +2237,7 @@
         /**
          * Creates ViewConfig objects and adds to nodes.
          *
-         * On each [[PathNode]], creates ViewConfig objects from the views: property of the node's state
+         * On each [[PathNode]], creates ViewConfig objects from the views: property of the model's state
          */
         PathFactory.applyViewConfigs = function ($view, path, states) {
             // Only apply the viewConfigs to the nodes for the given states
@@ -2251,8 +2251,8 @@
         /**
          * Given a fromPath and a toPath, returns a new to path which inherits parameters from the fromPath
          *
-         * For a parameter in a node to be inherited from the from path:
-         * - The toPath's node must have a matching node in the fromPath (by state).
+         * For a parameter in a model to be inherited from the from path:
+         * - The toPath's model must have a matching model in the fromPath (by state).
          * - The parameter name must not be found in the toKeys parameter array.
          *
          * Note: the keys provided in toKeys are intended to be those param keys explicitly specified by some
@@ -2271,10 +2271,10 @@
                 .map(prop('id'));
             /**
              * Given an [[PathNode]] "toNode", return a new [[PathNode]] with param values inherited from the
-             * matching node in fromPath.  Only inherit keys that aren't found in "toKeys" from the node in "fromPath""
+             * matching model in fromPath.  Only inherit keys that aren't found in "toKeys" from the model in "fromPath""
              */
             function makeInheritedParamsNode(toNode) {
-                // All param values for the node (may include default key/vals, when key was not found in toParams)
+                // All param values for the model (may include default key/vals, when key was not found in toParams)
                 var toParamVals = extend({}, toNode && toNode.paramValues);
                 // limited to only those keys found in toParams
                 var incomingParamVals = pick(toParamVals, toKeys);
@@ -2301,7 +2301,7 @@
             while (keep < max && fromPath[keep].state !== reloadState && nodesMatch(fromPath[keep], toPath[keep])) {
                 keep++;
             }
-            /** Given a retained node, return a new node which uses the to node's param values */
+            /** Given a retained model, return a new model which uses the to model's param values */
             function applyToParams(retainedNode, idx) {
                 var cloned = PathNode.clone(retainedNode);
                 cloned.paramValues = toPath[idx].paramValues;
@@ -2318,14 +2318,14 @@
             return { from: from, to: to, retained: retained, exiting: exiting, entering: entering };
         };
         /**
-         * Return a subpath of a path, which stops at the first matching node
+         * Return a subpath of a path, which stops at the first matching model
          *
-         * Given an array of nodes, returns a subset of the array starting from the first node,
-         * stopping when the first node matches the predicate.
+         * Given an array of nodes, returns a subset of the array starting from the first model,
+         * stopping when the first model matches the predicate.
          *
          * @param path a path of [[PathNode]]s
          * @param predicate a [[Predicate]] fn that matches [[PathNode]]s
-         * @returns a subpath up to the matching node, or undefined if no match is found
+         * @returns a subpath up to the matching model, or undefined if no match is found
          */
         PathFactory.subPath = function (path, predicate) {
             var node = find(path, predicate);
@@ -2489,7 +2489,7 @@
      * When a state is being activated, each element in the path is wrapped as a [[PathNode]].
      * A `PathNode` is a stateful object that holds things like parameters and resolvables for the state being activated.
      *
-     * The ResolveContext closes over the [[PathNode]]s, and provides DI for the last node in the path.
+     * The ResolveContext closes over the [[PathNode]]s, and provides DI for the last model in the path.
      */
     var ResolveContext = (function () {
         function ResolveContext(_path) {
@@ -2520,13 +2520,13 @@
          * Returns a ResolveContext that includes a portion of this one
          *
          * Given a state, this method creates a new ResolveContext from this one.
-         * The new context starts at the first node (root) and stops at the node for the `state` parameter.
+         * The new context starts at the first model (root) and stops at the model for the `state` parameter.
          *
          * #### Why
          *
          * When a transition is created, the nodes in the "To Path" are injected from a ResolveContext.
          * A ResolveContext closes over a path of [[PathNode]]s and processes the resolvables.
-         * The "To State" can inject values from its own resolvables, as well as those from all its ancestor state's (node's).
+         * The "To State" can inject values from its own resolvables, as well as those from all its ancestor state's (model's).
          * This method is used to create a narrower context when injecting ancestor nodes.
          *
          * @example
@@ -2536,17 +2536,17 @@
          * When injecting `D`, `D` should have access to all resolvables from `A`, `B`, `C`, `D`.
          * However, `B` should only be able to access resolvables from `A`, `B`.
          *
-         * When resolving for the `B` node, first take the full "To Path" Context `[A,B,C,D]` and limit to the subpath `[A,B]`.
+         * When resolving for the `B` model, first take the full "To Path" Context `[A,B,C,D]` and limit to the subpath `[A,B]`.
          * `let AB = ABCD.subcontext(a)`
          */
         ResolveContext.prototype.subContext = function (state) {
             return new ResolveContext(PathFactory.subPath(this._path, function (node) { return node.state === state; }));
         };
         /**
-         * Adds Resolvables to the node that matches the state
+         * Adds Resolvables to the model that matches the state
          *
          * This adds a [[Resolvable]] (generally one created on the fly; not declared on a [[StateDeclaration.resolve]] block).
-         * The resolvable is added to the node matching the `state` parameter.
+         * The resolvable is added to the model matching the `state` parameter.
          *
          * These new resolvables are not automatically fetched.
          * The calling code should either fetch them, fetch something that depends on them,
@@ -2555,7 +2555,7 @@
          * Note: each resolvable's [[ResolvePolicy]] is merged with the state's policy, and the global default.
          *
          * @param newResolvables the new Resolvables
-         * @param state Used to find the node to put the resolvable on
+         * @param state Used to find the model to put the resolvable on
          */
         ResolveContext.prototype.addResolvables = function (newResolvables, state) {
             var node = find(this._path, propEq('state', state));
@@ -2615,7 +2615,7 @@
             var _this = this;
             var node = this.findNode(resolvable);
             // Find which other resolvables are "visible" to the `resolvable` argument
-            // subpath stopping at resolvable's node, or the whole path (if the resolvable isn't in the path)
+            // subpath stopping at resolvable's model, or the whole path (if the resolvable isn't in the path)
             var subPath = PathFactory.subPath(this._path, function (x) { return x === node; }) || this._path;
             var availableResolvables = subPath
                 .reduce(function (acc, node) { return acc.concat(node.resolvables); }, []) //all of subpath's resolvables
@@ -3439,7 +3439,7 @@
             return name ? name + "." + this.name : this.name;
         };
         /**
-         * Returns the root node of this state's tree.
+         * Returns the root model of this state's tree.
          *
          * @returns The root of this state's tree.
          */
@@ -6073,7 +6073,7 @@
          *
          * @internalapi
          *
-         * @param fromPath The path of [[PathNode]]s from which the transition is leaving.  The last node in the `fromPath`
+         * @param fromPath The path of [[PathNode]]s from which the transition is leaving.  The last model in the `fromPath`
          *        encapsulates the "from state".
          * @param targetState The target state and parameters being transitioned to (also, the transition options)
          * @param router The [[UIRouter]] instance

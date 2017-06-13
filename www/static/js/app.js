@@ -76,7 +76,8 @@ angular.module("myproject", ["controller", "server", "ui.router", 'ngRoute'])
         url: "/dash/template3",
         views: {
             "box-dash": {
-                templateUrl: "html/box/template3.html"
+                templateUrl: "html/box/template3.html",
+                controller:"template3Ctrl"
             }
         }
     })
@@ -84,7 +85,8 @@ angular.module("myproject", ["controller", "server", "ui.router", 'ngRoute'])
         url: "/dash/template4",
         views: {
             "box-dash": {
-                templateUrl: "html/box/template4.html"
+                templateUrl: "html/box/template4.html",
+                controller:"template4Ctrl"
             }
         }
     })

@@ -101,23 +101,36 @@ $scope.slideHe = $(window).height()-$('navbar').height()-140;
     }
 })
 /*登录控制器*/
-.controller("loginCtrl", function ($scope, $state, saveInfor) {
+.controller("loginCtrl", function ($scope, $state, saveInfor,dataFactory) {
     $('#myCollapsible').collapse({
         parent:true
-
     })
     $('body').css('background', " rgba(56,157,170,.82)");
     $scope.login = function (name, password) {
+        var json = {
+            username:name,
+            password:password
+        }
+
+
         console.log(name)
         if (!name || !password) {
             alert("账户名或密码为空！！！");
             return;
+        }else {
+            dataFactory.getlist('/api/user/login','GET',json).then(function (data) {
+                console.log(data);
+                if(data.success){
+                    saveInfor.save("loignInfor", {
+                        name: data.info.username
+                    });
+                    $state.go("box.dash");
+                }else{
+                    $('.bs-example-model-sm').modal('show')
+                    $scope.msg = data.message;
+                }
+            })
         }
-        saveInfor.save("loignInfor", {
-            name: name,
-            password: password
-        });
-        $state.go("box.dash");
     }
 })
 .controller('headerCtrl', function ($scope, $state, contains) {
@@ -335,6 +348,65 @@ $scope.search = function () {
      }
      });
      })*/
+})
+    
+.controller('template3Ctrl',function ($scope,$state,dataFactory) {
+    dataFactory.getlist('/api/people/all',"POST",{}).then(function (data) {
+        console.log(data);
+        $("#people_list").jqGrid({
+            data:data.data,
+            datatype: "local",
+            colModel: [
+                { label: 'id', name: '_id',key: true ,hidden:true},
+                { label: '名字', name: 'name',resize:true,
+                    drag :true,},
+                { label: '性别', name: 'sex',resize:true,
+                    drag :true,},
+                { label: '年龄', name: 'age',resize:true,
+                    drag :true,resizable:true},
+                { label: '学历', name: 'edu',resize:true,
+                    drag :true,resizable:true},
+                {label:'操作'}
+            ],
+            viewrecords: true,
+            height: 385,
+            rowNum: 10,
+            rowList : [10,30,50],
+            rownumbers: true,
+            rownumWidth: 25,
+            autowidth:true,
+            resizable:true,
+            multiselect: true,
+            sortname:'inComeAmount',
+            sortorder:'desc',
+            pager: "#pages_people",
+            jsonReader : {
+                root: "page.list",
+                page: "page.currPage",
+                total: "page.totalPage",
+                records: "page.totalCount"
+            },
+            prmNames : {
+                page:"page",
+                rows:"limit",
+                order: "order"
+            },
+            gridComplete:function(){
+                //隐藏grid底部滚动条
+                $("#bill_list").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
+            }
+        });
+    })
+})
+
+.controller('template4Ctrl',function ($scope,$state,dataFactory,objectJson) {
+    $scope.save= function () {
+        $scope.json = objectJson.get('#add');
+        dataFactory.getlist('/api/people/peopleAll',"POST",$scope.json).then(function (data) {
+            console.log(data);
+        })
+    }
+
 })
 
 ;

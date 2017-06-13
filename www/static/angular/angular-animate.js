@@ -2609,7 +2609,7 @@ var $$AnimateQueueProvider = ['$animateProvider', function($animateProvider) {
         var parentElement = element.parent() || [];
 
         // animate/structural/class-based animations all have requirements. Otherwise there
-        // is no point in performing an animation. The parent node must also be set.
+        // is no point in performing an animation. The parent model must also be set.
         var isValidAnimation = parentElement.length > 0
                                 && (animationDetails.event === 'animate'
                                     || animationDetails.structural
