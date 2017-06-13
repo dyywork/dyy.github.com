@@ -3,7 +3,11 @@
 
 
 打开index即可
+www目录运行 npm install
 
+运行node.js  data.js
+
+打开 localhost:3001/index.html
 
 用户名密码随便填
 
