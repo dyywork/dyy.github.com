@@ -15,14 +15,14 @@ function addUser(info) {
     })
 }
 
-/*for (var i = 0; i <userList.length;i++){
+for (var i = 0; i <userList.length;i++){
     var userInfo = {};
     userInfo.username = userList[i].username;
     userInfo.password = userList[i].password;
     userInfo.sex = userList[i].sex;
     userInfo.key = userList[i].key;
     addUser(userInfo);
-}*/
+}
 /*瞎造的数据*/
 var peopleList = [{
     name:"王良杰",
@@ -45,11 +45,11 @@ function addPeople(info) {
     })
 }
 
-/*for (var i =0;i<peopleList.length;i++){
+for (var i =0;i<peopleList.length;i++){
     var data = {};
     data.name = peopleList[i].name;
     data.sex = peopleList[i].sex;
     data.age=peopleList[i].age;
     data.edu = peopleList[i].edu;
     addPeople(data);
-}*/
+}

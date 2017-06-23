@@ -68,6 +68,7 @@ exports.peopleAdd =function (req,res) {
 /*删除*/
 exports.peopleDelete = function (req,res) {
     var id = req.body.id;
+
     db.people.find({_id: id},function (err,data) {
         if (data !='' && data !=undefined){
             db.people.remove({_id:id},function (err) {
