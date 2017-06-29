@@ -176,13 +176,36 @@ angular.module("controller", [])
         $state.go('box.dash');
         $('.dropdown-toggle').dropdown();
     })
-    .controller("dashCtrl", function ($scope, saveInfor, $state, $http, datesSelect, dataFactory) {
+    .controller("dashCtrl", function ($scope, saveInfor, $state, $http, datesSelect, dataFactory,locals) {
         $scope.nowDate = new Date().getTime() - 86400000;
         datesSelect.get("#channelstart", "#channelend")
+            if (!locals.get('index',"dash")){
+                $scope.formData = {
+                    channel: "",
+                    contractId: "",
+                    custerName: "",
+                    maxAmount: "",
+                    minAmount: "",
+                    orderNo: "",
+                    pageSize: 20,
+                    status: ""
+                };
+                datesSelect.get("#channelstart", "#channelend")
+            }else{
+                $scope.formData = locals.get("index","dash");
+
+            }
+        setInterval(function () {
+            $scope.$apply(function () {
+                $scope.formData.startTime = document.getElementById('channelstart').value;
+                $scope.formData.endTime = document.getElementById('channelend').value;
+            });
+            locals.save("index",$scope.formData,"dash")
+        }, 100);
+
+
         $scope.search = function () {
-
-
-            $scope.channel = {
+            /*  $scope.channel = {
                 channel: "",
                 contractId: "",
                 custerName: "",
@@ -194,8 +217,8 @@ angular.module("controller", [])
             };
             $scope.channel.startTime = 1477843200000; //$('#channelstart').val();
             $scope.channel.endTime = 1494172799000;// $('#channelend').val();
-            console.log($scope.channel)
-            var json = JSON.stringify($scope.channel);
+            console.log($scope.channel)*/
+            var json = JSON.stringify($scope.formData);
             dataFactory.getlist("/bill/queryBill", "post", json).then(function (data) {
                 console.log(data);
                 $("#bill_list").jqGrid({
@@ -274,7 +297,7 @@ angular.module("controller", [])
                 });
             })
         }
-
+        saveInfor.save('dash',$scope.formData);
 
     })
     .controller("payMoneyCtrl", function ($scope, saveInfor) {
@@ -420,6 +443,10 @@ angular.module("controller", [])
             });
             jQuery(".btn").click(function () {
                 var ids = jQuery("#people_list").jqGrid('getGridParam', 'selrow');
+                console.log(ids)
+                var json = {
+                    id: ids
+                }
                 console.log(ids)
                 jQuery('#people_list').jqGrid('delGridRow',ids,{url:'/api/people/peopleDelete'})
                /* var json = {

@@ -1,82 +1,46 @@
-<!--
 
-<div class="container">
-    <div class="span12">
-        <table class="table table-bordered table-hover" align="center">
-            <tr>
-                <td>
-                    登录人：{{loginInfor.name}}
-                </td>
-                <td></td>
-                <td>
-                    <b>全选</b>&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="chioceAll" ng-change="change(chioceAll)" style="width: 40px;height: 40px;">
-                </td>
-            </tr>
-            <tr ng-repeat="i in data">
-                <td style="text-align: center"><h3>{{i.name}}</h3></td>
-                <td>
-                    <p ng-repeat="j in i.content">{{j.name}}&nbsp;{{j.price}}元</p>
-                </td>
-                <td>
-                    <input type="checkbox" ng-model="i.isChioce" style="width: 40px;height: 40px;margin: 20px auto">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" style="text-align: right;padding-right: 20px;">
-                    共：{{money}}元
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <div ng-click="pay()" class="payBtn">去付款</div>
-                </td>
-            </tr>
-        </table>
-    </div>
-  &lt;!&ndash;  <div ng-include="'html/box.html'"></div>&ndash;&gt;
-</div>-->
 <div class="container-fluid">
     <header class="well">
-        <form class="form-inline">
+        <form class="form-inline" [ng-form="dash()"]>
             <div class="row">
                 <div class="form-group col-md-3 col-sm-6">
                     <label for="channelstart">开始日期</label>
                     <input id="channelstart"
                            class="laydate-icon form-control date_het_pad"
-                           type="text" ng-model="newDate">
+                           type="text"  ng-model="formData.startTime"/>
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
                     <label for="channelend">至</label>
                     <input id="channelend"
                            class="laydate-icon form-control date_het_pad"
-                           type="text">
+                           type="text" ng-model="formData.endTime">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
                     <label>客户名称</label>
-                    <input type="text" ng-model="channel.custerName" class="form-control">
+                    <input type="text" ng-model="formData.custerName" class="form-control">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
                     <label>渠道单据号</label>
-                    <input type="text" ng-model="channel.orderNo" class="form-control"
+                    <input type="text" ng-model="formData.orderNo" class="form-control"
                            placeholder="jane.doe@example.com">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-3 col-sm-6">
                     <label>金额范围</label>
-                    <input type="text" ng-model="channel.minAmount" class="form-control">
+                    <input type="text" ng-model="formData.minAmount" class="form-control">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
                     <label>至</label>
-                    <input type="text" ng-model="channel.maxAmount" class="form-control">
+                    <input type="text" ng-model="formData.maxAmount" class="form-control">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
                     <label>所属合同</label>
-                    <input type="text" ng-model="channel.contractId" class="form-control">
+                    <input type="text" ng-model="formData.contractId" class="form-control">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
                     <label>渠道</label>
-                    <select class="form-control" ng-model="channel.channel">
+                    <select class="form-control" ng-model="formData.channel">
                         <option value="">全部</option>
                         <option value="ALIPAY">支付宝</option>
                         <option value="WECHAT">微信</option>
@@ -88,7 +52,7 @@
             <div class="row">
                 <div class="form-group col-md-3 col-sm-6">
                     <label>对账状态</label>
-                    <select class="form-control " ng-model="channel.status">
+                    <select class="form-control " ng-model="formData.status">
                         <option value="">全部</option>
                         <option value="START">未对账</option>
                         <option value="FAILD">对账失败</option>
@@ -107,6 +71,5 @@
             <table id="bill_list"></table>
             <div id="pages_bill"></div>
         </div>
-
     </section>
 </div>

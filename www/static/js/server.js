@@ -3,7 +3,6 @@
  */
 angular.module("server", [])
 .factory("saveInfor", function () {
-
     var json = {};
     return {
         save: function (key, value) {
@@ -17,7 +16,25 @@ angular.module("server", [])
         }
     }
 })
-
+/*存储localStorge工具
+    * key:存储时的字段名
+    * value：存储时的数据
+    * name:存储时的object名
+    * 存储类型：name={key:value}*/
+    .factory("locals", function () {
+        var json = {};
+        return {
+            save: function (key, value,name) {
+                json[key] = value;
+                window.localStorage.setItem(name, JSON.stringify(json));
+            },
+            get: function (key,name) {
+                json = {} ? JSON.parse(window.localStorage.getItem(name))
+                    : json;
+                return json[key];
+            }
+        }
+    })
 .factory("contains", function () {
     return {
         expand: function (arr, obj) {
@@ -32,6 +49,7 @@ angular.module("server", [])
     }
 
 })
+    /*服务请求的一种方式*/
 .factory("Server", function () {
     return {
         get: function () {
@@ -39,6 +57,8 @@ angular.module("server", [])
         }
     }
 })
+
+    /*ajax请求的方式endpoint请求地址；method请求方式；params请求方法*/
 .factory('dataFactory', function ($http, $q) {
     var factory = {};
     factory.getlist = function (endpoint, method, params) {
@@ -72,6 +92,7 @@ angular.module("server", [])
     };
     return factory;
 })
+    /*表单序列化工具；ID：form的id*/
 .factory('objectJson', function () {
     return {
         get: function (id) {
@@ -97,10 +118,11 @@ angular.module("server", [])
         }
     }
 })
+
+/*日期设定插件1.开始时间的id,2.结束时间的id*/
 .factory('datesSelect', function () {
     return {
         get: function (comtimestart, comtimeend) {
-
             var comstart = {
                 elem: comtimestart,
                 format: 'YYYY-MM-DD hh:mm:ss',
@@ -124,7 +146,6 @@ angular.module("server", [])
                     comstart.max = datas; //结束日选好后，重置开始日的最大日期
                 }
             };
-
             laydate(comstart);
             laydate(comend);
         }

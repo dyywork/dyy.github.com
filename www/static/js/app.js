@@ -10,7 +10,15 @@ angular.module("myproject", ["controller", "server", "ui.router", 'ngRoute'])
         replace: true
     }
 })
+    .run(['$rootScope', '$window', '$location', '$log','$templateCache', function ($rootScope, $window, $location, $log,$templateCache) {
 
+        var stateChangeSuccess = $rootScope.$on('$stateChangeSuccess', stateChangeSuccess);
+
+        function stateChangeSuccess($rootScope) {
+            $templateCache.removeAll();
+        }
+
+    }])
 .config(function ($stateProvider, $urlRouterProvider, $routeProvider) {
     $urlRouterProvider.otherwise("/login");
     $stateProvider
