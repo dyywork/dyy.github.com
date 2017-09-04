@@ -1,6 +1,6 @@
-var db = require('./model');
+const db = require('./model');
 
-var userList = [{
+const userList = [{
     username:'dyy',
     password:"123456",
     key:'1',
@@ -15,8 +15,8 @@ function addUser(info) {
     })
 }
 
-for (var i = 0; i <userList.length;i++){
-    var userInfo = {};
+for (let i = 0; i <userList.length;i++){
+    let userInfo = {};
     userInfo.username = userList[i].username;
     userInfo.password = userList[i].password;
     userInfo.sex = userList[i].sex;
@@ -24,7 +24,7 @@ for (var i = 0; i <userList.length;i++){
     addUser(userInfo);
 }
 /*瞎造的数据*/
-var peopleList = [{
+const peopleList = [{
     name:"王良杰",
     sex:"woman",
     age:"2",
@@ -45,8 +45,8 @@ function addPeople(info) {
     })
 }
 
-for (var i =0;i<peopleList.length;i++){
-    var data = {};
+for (let i =0;i<peopleList.length;i++){
+    let data = {};
     data.name = peopleList[i].name;
     data.sex = peopleList[i].sex;
     data.age=peopleList[i].age;

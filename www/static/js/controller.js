@@ -27,14 +27,18 @@ angular.module("controller", [])
 
     })
     .controller('sliderCtrl',
-        function ($scope, $state, saveInfor, $http, $compile, contains) {
-            $http.get("data/nav.json").success(function (data) {
-                /*
+        function ($scope, $state, saveInfor, $http, $compile, contains,dataFactory) {
+      dataFactory.getlist('/api/nav',"POST").then(function (data) {
+        $scope.arr = data.data;
+      })
+           /* $http.get("data/nav.json").success(function (data) {
+                /!*
                  * "tabId": "index",  // 侧边蓝切换的id
                  "shows": "in",      // 默认那个选项卡是展开的
-                 * */
+                 * *!/
                 $scope.arr = data;
-            });
+                console.log(data)
+            });*/
             $('.collapse').collapse({
                 parent: 'true'
             })
@@ -139,7 +143,7 @@ angular.module("controller", [])
             }
             //浏览器时下窗口可视区域高度
             //浏览器时下窗口文档body的总高度 包括border padding margin
-        });
+        }).resize();
         $scope.isOff = true;
         $scope.silderColse = function () {
             if ($scope.isOff) {
@@ -177,7 +181,7 @@ angular.module("controller", [])
         $('.dropdown-toggle').dropdown();
     })
     .controller("dashCtrl", function ($scope, saveInfor, $state, $http, datesSelect, dataFactory,locals) {
-        $scope.nowDate = new Date().getTime() - 86400000;
+        /*$scope.nowDate = new Date().getTime() - 86400000;
         datesSelect.get("#channelstart", "#channelend")
             if (!locals.get('index',"dash")){
                 $scope.formData = {
@@ -194,14 +198,14 @@ angular.module("controller", [])
             }else{
                 $scope.formData = locals.get("index","dash");
 
-            }
-        setInterval(function () {
+            }*/
+       /* setInterval(function () {
             $scope.$apply(function () {
                 $scope.formData.startTime = document.getElementById('channelstart').value;
                 $scope.formData.endTime = document.getElementById('channelend').value;
             });
             locals.save("index",$scope.formData,"dash")
-        }, 100);
+        }, 100);*/
 
 
         $scope.search = function () {
@@ -382,7 +386,79 @@ angular.module("controller", [])
          })*/
     })
     .controller('template3Ctrl', function ($scope, $state, dataFactory) {
-        dataFactory.getlist('/api/people/all', "POST", {}).then(function (data) {
+
+      $("#people_list").jqGrid({
+        url:'http://localhost:3001/api/people/all',
+        datatype: "json",
+        mtype:"POST",
+        colModel: [
+          {label: 'id', name: '_id', key: true, hidden: true},
+          {
+            label: '名字', name: 'name', resize: true,
+            drag: true
+          },
+          {
+            label: '性别', name: 'sex', resize: true,
+            drag: true
+          },
+          {
+            label: '年龄', name: 'age', resize: true,
+            drag: true, resizable: true
+          },
+          {
+            label: '学历', name: 'edu', resize: true,
+            drag: true, resizable: true
+          },
+          {
+            label: '操作',
+            formatter: function (cellvalue, options, rowObject) {
+              var detail = "<div class='btn'>删除</div>";
+              return detail;
+            }
+          }
+        ],
+        viewrecords: true,
+        height: 385,
+        rowNum: 10,
+        rowList: [10, 30, 50],
+        rownumbers: true,
+        rownumWidth: 25,
+        autowidth: true,
+        resizable: true,
+        multiselect: true,
+        sortname: 'inComeAmount',
+        sortorder: 'desc',
+        pager: "#pages_people",
+
+        serializeGridData: function (postData) {
+          console.log(postData);
+
+          return JSON.stringify(postData);
+        },
+        jsonReader: {
+          root: "data",
+          page: "currentPage",
+          total: "pageTol",
+          records: "toltal"
+        },
+        prmNames: {
+          page:'pageNo',
+          rows: 'pageSize',
+          order: null,
+          search:null,
+          nd:null,
+          sort:null
+        },
+        gridComplete: function () {
+          //隐藏grid底部滚动条
+          $("#bill_list").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+        }
+      })
+
+
+
+
+      /*  dataFactory.getlist('/api/people/all', "POST", {}).then(function (data) {
             $("#people_list").jqGrid({
                 data: data.data,
                 datatype: "local",
@@ -390,11 +466,11 @@ angular.module("controller", [])
                     {label: 'id', name: '_id', key: true, hidden: true},
                     {
                         label: '名字', name: 'name', resize: true,
-                        drag: true,
+                        drag: true
                     },
                     {
                         label: '性别', name: 'sex', resize: true,
-                        drag: true,
+                        drag: true
                     },
                     {
                         label: '年龄', name: 'age', resize: true,
@@ -409,7 +485,7 @@ angular.module("controller", [])
                         formatter: function (cellvalue, options, rowObject) {
                             var detail = "<div class='btn'>删除</div>";
                             return detail;
-                        },
+                        }
                     }
                 ],
                 viewrecords: true,
@@ -448,23 +524,23 @@ angular.module("controller", [])
                     id: ids
                 }
                 console.log(ids)
-                jQuery('#people_list').jqGrid('delGridRow',ids,{url:'/api/people/peopleDelete'})
-               /* var json = {
-                    id: ids[0]
-                }*/
-               /* if (ids && ids != ""){
+               /!* jQuery('#people_list').jqGrid('delGridRow',ids,{url:'/api/people/peopleDelete'})*!//!*
+              var json = {
+                id: ids[0]
+              };*!/
+                if (ids && ids != ""){
                     dataFactory.getlist('/api/people/peopleDelete', "POST", json).then(function (data) {
                         console.log(data)
                         if (data.success) {
                             $scope.meg = data.message;
-                            jQuery('#people_list').jqGrid('delGridRow',json.id,{url:'/api/people/peopleDelete'})
+                          /!*jQuery('#people_list').jqGrid('delGridRow', json.id, {url: '/api/people/peopleDelete'})*!/;
                         }
                     })
                 }else{
                     console.log('请选择需要删除的')
-                }*/
+                }
             });
-        })
+        })*/
     })
 
     .controller('template4Ctrl', function ($scope, $state, dataFactory, objectJson) {

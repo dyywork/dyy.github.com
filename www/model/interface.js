@@ -42,20 +42,51 @@ exports.login = function (req,res) {
         }
     })
 }
+/*nav*/
+exports.nav = function (req,res) {
+  db.nav.find(function (err,docs) {
+    console.log(docs)
+    console.log(err)
+    if (docs !== null && docs.length > 0){
+      res.status(200).json({
+        success:true,
+        data:docs
+      })
+    }else if (docs && docs ==''){
+      res.status(200).json({success:false,data:"数据为空"})
+    }else{
+      res.status(200).json({success:false,data:"请求失败"})
+    }
+  })
+}
+exports.people = function (req,res,next) {
+  console.log(req.body);
+  var pageSize = req.body.pageSize;
+  var pageNo = req.body.pageNo;
+   db.people.find(function (err,docs,count) {
+       if (docs !==null && docs.length > 0){
+         var result =[];
 
-exports.people = function (req,res) {
-   db.people.find(function (err,docs) {
-       if (docs !=null && docs.length > 0){
-           res.status(200).json({success:true, data:docs})
+         for (let i = pageSize*pageNo-pageSize;i<pageSize*pageNo;i++){
+           if (docs.length>i){
+             result.push(docs[i])
+           }
+         }
+         res.status(200).json({
+           success:true,
+           data:result,
+           currentPage:req.body.pageNo,
+           pageTol:Math.ceil(docs.length/pageSize),
+           toltal:docs.length
+         })
        }else{
            res.status(200).json({success:false,data:"请求失败"})
        }
-   })
+   });
 }
 /*增加*/
 exports.peopleAdd =function (req,res) {
     var peopleInfo = req.body;
-    console.log(peopleInfo)
     db.people.create(peopleInfo,function (err,data) {
         if (err){
             res.status(200).json({success:false,data:"请求失败"})

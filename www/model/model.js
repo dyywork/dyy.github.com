@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://127.0.0.1:27017/backface',function (err) {
     if (err) throw err;
@@ -16,10 +16,19 @@ var peopleDb = new mongoose.Schema({
     name:String,
     sex:String,
     age:Number,
-    edu:String
+    edu:String,
+    limit:Number
+})
+var navDb = new mongoose.Schema({
+  name: String,
+  tabId: String,
+  shows: String,
+  core:String,
+ items:Array
 })
 var user = mongoose.model('user',userDb);
 var people = mongoose.model('people',peopleDb,'peoples');
-
+var nav = mongoose.model('nav',navDb, 'navData')
 exports.user = user;
 exports.people = people;
+exports.nav = nav;

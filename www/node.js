@@ -4,11 +4,14 @@ var express = require('express');
     var  path = require('path');
 
 var route = require('./model/interface');
-
 var app = express();
 
 
+// parse application/x-www-form-urlencoded
+//app.use(bodyParser.urlencoded({ extended: false }));
 
+// parse application/json
+//app.use(bodyParser.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -23,18 +26,10 @@ app.get('/api/user/login',route.login);
 app.post('/api/people/all',route.people);
 app.post('/api/people/peopleAll',route.peopleAdd);
 app.post('/api/people/peopleDelete',route.peopleDelete);
+app.post('/api/nav',route.nav);
 
 /**/
 app.use(express.static(path.join(__dirname,'static')));
-
-app.use(function (req,res) {
-    res.sendFile(path.join(__dirname,'static','index.html'))
-    res.writeHeader(200,{
-        'content-type':'application/json',
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Request-Method':'POST,GET,OPTIONS',
-        'Access-Control-Request-Headers':'content-type'});
-})
 
 app.listen(3001,function (err) {
 
